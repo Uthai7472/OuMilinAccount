@@ -14,7 +14,6 @@ const app = express();
 app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 // Set the views directory
 app.set('views', './views');
@@ -399,6 +398,7 @@ app.get('/dashboard', isAuthenticated, async (req, res) => {
         if (!month) {
             month = "";
         }
+        console.log("Month receive:", month);
 
         const get_months = await new Promise((resolve, reject) => {
             connection.query(`
@@ -428,9 +428,10 @@ app.get('/dashboard', isAuthenticated, async (req, res) => {
         // console.log(get_datas.category)
         const categories = get_datas.map((row) => row.category);
         const prices = get_datas.map((row) => row.sumPrice);
-        console.log(categories, prices);
 
-        res.render('dashboard', {get_months, get_datas, categories, prices});
+        console.log(categories);
+
+        res.render('dashboard', {get_months, categories, prices});
 
     } catch (error) {
         console.error("Error : ", error);
@@ -440,6 +441,8 @@ app.get('/dashboard', isAuthenticated, async (req, res) => {
 app.post('/dashboard/search', async (req, res) => {
     try {
         const month = req.body.month;
+
+        console.log(month);
 
         res.redirect(`/dashboard?month=${month}`);
 

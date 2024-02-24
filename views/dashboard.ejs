@@ -23,18 +23,40 @@
             height: auto;
             padding: 10px;
             border: 1px solid black;
+            margin: 0 10px 10px 10px;
+            border-radius: 10px;
         }
         .select-month {
             width: 100%;
             height: auto;
             padding: 10px;
             border: 1px solid black;
+            margin: 0 10px 0 10px;
+            border-radius: 10px;
+            background-color: rgba(254, 200, 216,0.4);
         }
         .label {
             width: 100%;
             height: auto;
-            padding: 5px;
-            border: 1px solid black;
+            padding: 10px 5px 0 5px;
+            /* border: 1px solid black; */
+        }
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        .chart {
+            margin-top: 10px;
+            width: 100%;
+            height: 40rem;
+            padding: 10px;
+            /* border: 3px solid black; */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(249, 250, 249);
+            box-shadow: 10px 4px 8px #888888;
         }
     </style>
 </head>
@@ -64,26 +86,32 @@
         </form>
     </div>
 
-    <div>
+    <div class="chart">
         <canvas id="myChart"></canvas>
     </div>
 
     <script>
-        const categories = <%= JSON.stringify(categories) %>;
-        const prices = <%= JSON.stringify(prices) %>;
+        var categoriesArray = ('<%= categories %>').split(",").map(item => item.trim());
+        var pricesArray = ('<%= prices %>').split(",").map(item => item.trim());
 
-        // console.log(price);
-        // console.log(category);
+        // Extract the sumPrice and category data from the results array
+        // const sumPrices = data.map(item => item.sumPrice);
+        // const categories = data.map(item => item.category);
+
+        console.log(categoriesArray);
 
         const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: categories,
+            labels: categoriesArray,
             datasets: [{
             label: 'ราคา',
-            data: prices,
-            backgroundColor: ['rgb(224, 187, 228)', 'rgb(149, 125, 173)', 'rgb(210, 145, 188)']
+            data: pricesArray,
+            backgroundColor: ['rgb(224, 187, 228)', 'rgb(149, 125, 173)', 
+            'rgb(210, 145, 188)', 'rgb(255, 223, 211)', 'rgb(238, 120, 153)',
+            'rgb(235, 232, 190)', 'rgb(107, 149, 219)', 'rgb(107, 149, 219)',
+            'rgb(104, 68, 173)']
             }]
         },
         options: {
